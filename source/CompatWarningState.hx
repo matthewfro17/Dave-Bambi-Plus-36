@@ -24,6 +24,9 @@ class CompatWarningState extends MusicBeatState
 
     public override function create():Void
     {
+		Paths.clearStoredMemory();
+		Paths.clearUnusedMemory();
+
         bg = new FlxBackdrop(Paths.image('ui/checkeredBG', 'preload'), 1, 1, true, true, 1, 1);
         bg.antialiasing = true;
         add(bg);
@@ -48,9 +51,16 @@ class CompatWarningState extends MusicBeatState
         }
 
         changeSelection();
+
+		#if mobile
+		addVirtualPad(LEFT_RIGHT, A);
+		#end
     }
+
     public override function update(elapsed:Float)
     {
+		super.update(elapsed);
+
         var scrollSpeed:Float = 50;
         bg.x -= scrollSpeed * elapsed;
         bg.y -= scrollSpeed * elapsed;
@@ -63,12 +73,7 @@ class CompatWarningState extends MusicBeatState
 
                     FlxG.sound.play(Paths.sound('confirmMenu'), 0.4);
 
-                    var formattedBool:Bool = false;
-                    if(optionArray[curSelected] == 1){formattedBool = true;}else{formattedBool = false;}
-
-                    trace(formattedBool);
-
-                    CompatTool.save.data.compatMode = formattedBool;
+                    CompatTool.save.data.compatMode = (optionArray[curSelected] == 1);
                     CompatTool.save.flush();
 
                     FlxFlicker.flicker(currentText, 1.1, 0.07, true, true, function(flick:FlxFlicker)
@@ -78,6 +83,7 @@ class CompatWarningState extends MusicBeatState
                         FlxG.sound.music.fadeIn(4, 0, 0.7);
                     });
                 }
+
                 if (controls.LEFT_P)
                 {
                     changeSelection(-1);
