@@ -884,16 +884,13 @@ class Character extends FlxSprite
 				{
 					animation.addByPrefix('sing${anim.toUpperCase()}-alt', 'smash', 24, false);
 				}
-		
-				addOffset('danceLeft');
-				addOffset('danceRight');
-				addOffset("singUP", 0, 0);
-				addOffset("singRIGHT", 0, 0);
-				addOffset("singLEFT", 0, 0);
-				addOffset("singDOWN", 0, 0);				
+
 				globalOffset = [-300, -150];
+
 				loadOffsetFile(curCharacter + (isPlayer ? '-playable' : ''));
+
 				barColor = FlxColor.fromRGB(60, 215, 80);
+
 				setGraphicSize(Std.int(width / furiosityScale));
 				updateHitbox();
 				antialiasing = false;
